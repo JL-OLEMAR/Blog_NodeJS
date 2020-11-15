@@ -17,21 +17,7 @@ app.use(bodyParser.json());
 // CORS
 
 // Añadir prefijos a rutas / Cargar rutas
-app.use('/', article_routes);
-
-// Ruta o metodo d prueba para el API REST
-/*
-app.post('/datos-curso', (req, res) => {
-    var hola = req.body.hola;
-
-    return res.status(200).send({
-        curso: 'Master en Framerworks JS',
-        author: 'JL-OLEMAR',
-        url: 'victorroblesweb.es',
-        hola
-    });
-});
-*/
+app.use('/api', article_routes);
 
 // Exportar modulo (fichero actual)
 module.exports = app;
