@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 // Cargar ficheros rutas
+var article_routes = require('./routes/article');
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,9 +16,11 @@ app.use(bodyParser.json());
 
 // CORS
 
-// Añadir prefijos a rutas
+// Añadir prefijos a rutas / Cargar rutas
+app.use('/', article_routes);
 
 // Ruta o metodo d prueba para el API REST
+/*
 app.post('/datos-curso', (req, res) => {
     var hola = req.body.hola;
 
@@ -28,6 +31,7 @@ app.post('/datos-curso', (req, res) => {
         hola
     });
 });
+*/
 
 // Exportar modulo (fichero actual)
 module.exports = app;
