@@ -74,8 +74,15 @@ var controller = {
 
     getArticles: (req, res) => {
 
+        var query = Article.find({});
+
+        var last = req.params.last;
+        if (last || last != undefined) {
+            query.limit(5);
+        }
+
         // Find
-        Article.find({}).sort('-_id').exec((err, articles) => {
+        query.sort('-_id').exec((err, articles) => {
 
             if (err) {
                 return res.status(500).send({
@@ -96,6 +103,38 @@ var controller = {
                 articles
             });
 
+        });
+
+    },
+
+    getArticle: (req, res) => {
+
+        // Recoger el id de la url
+        var articleId = req.params.id;
+
+        // Comprobar que existe
+        if (!articleId || articleId == null) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'No existe el articulo.'
+            });
+        }
+
+        // Buscar el articulo
+        Article.findById(articleId, (err, article) => {
+            
+            if (err || !article) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No existe el articulo.'
+                });
+            }
+
+            // Devolver  en json
+            return res.status(404).send({
+                status: 'success',
+                article
+            });
         });
 
     }
