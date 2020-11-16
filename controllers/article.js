@@ -16,13 +16,13 @@ var controller = {
             url: 'victorroblesweb.es',
             hola
         });
-    },
+    }, // end datosCurso
 
     test: (req, res) => {
         return res.status(200).send({
             message: 'Soy la acción test de mi controlador de aticulos'
         });
-    },
+    }, // end test
 
     save: (req, res) => {
         // Recoger parametros por post
@@ -72,7 +72,7 @@ var controller = {
                 message: 'Los datos no son válidos.'
             });
         }
-    },
+    }, // end save
 
     getArticles: (req, res) => {
 
@@ -107,7 +107,7 @@ var controller = {
 
         });
 
-    },
+    }, // end getArticles
 
     getArticle: (req, res) => {
 
@@ -139,7 +139,7 @@ var controller = {
             });
         });
 
-    },
+    }, // end getArticle
 
     update: (req, res) => {
 
@@ -191,7 +191,7 @@ var controller = {
                 message: 'La validación no es correcta !!!'
             });
         }
-    },
+    }, // end update
 
     delete: (req, res) => {
 
@@ -218,7 +218,7 @@ var controller = {
                 article: articleRemoved
             });
         });
-    },
+    }, // end delete
 
     upload: (req, res) => {
 
@@ -281,6 +281,24 @@ var controller = {
             });
         }
     }, // end upload file
+
+    getImage: (req, res) => {
+
+        var file = req.params.image;
+        var path_file = './upload/articles/' + file;
+
+        fs.exists(path_file, (exists) => {
+            if (exists) {
+                return res.sendFile(path.resolve(path_file));
+            } else {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'La imagen no existe.'
+                });
+            }
+        });
+
+    }, // end getImage file
 
 }; // End controller
 
