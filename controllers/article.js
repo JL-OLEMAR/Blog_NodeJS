@@ -48,12 +48,13 @@ var controller = {
             // Asignar el articulo
             article.title = params.title;
             article.content = params.content;
+            article.image = params.image;
 
-            if (params.image) {
-                article.image = params.image;
-            } else {
-                article.image = null;
-            }
+            // if (params.image) {
+            //     article.image = params.image;
+            // } else {
+            //     article.image = "";
+            // }
 
             // Guardar el articulo
             article.save((err, articleStored) => {
@@ -296,19 +297,24 @@ var controller = {
     getImage: (req, res) => {
 
         var file = req.params.image;
-        var path_file = './upload/articles/' + file;
-
-        fs.exists(path_file, (exists) => {
-            if (exists) {
-                return res.sendFile(path.resolve(path_file));
-            } else {
-                return res.status(404).send({
-                    status: 'error',
-                    message: 'La imagen no existe.'
-                });
-            }
-        });
-
+        if (file != 'null') {
+            let path_file = './upload/articles/' + file;
+            fs.exists(path_file, (exists) => {
+                if (exists) {
+                    return res.sendFile(path.resolve(path_file));
+                } else {
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'La imagen no existe.'
+                    });
+                }
+            });
+        } else {
+            return res.status(200).send({
+                status: 'success',
+                image: file
+            });
+        }
     }, // end getImage file
 
     search: (req, res) => {
