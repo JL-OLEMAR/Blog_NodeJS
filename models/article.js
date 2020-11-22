@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 var ArticleSchema = Schema({
     title: String,
     content: String,
-    date: { type: Date, default: Date.now },
-    image: String
+    image: String,
+    date: { type: Date, default: Date.now }    
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);

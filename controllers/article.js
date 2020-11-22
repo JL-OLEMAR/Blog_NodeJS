@@ -48,7 +48,12 @@ var controller = {
             // Asignar el articulo
             article.title = params.title;
             article.content = params.content;
-            article.image = null;
+
+            if (params.image) {
+                article.image = params.image;
+            } else {
+                article.image = null;
+            }
 
             // Guardar el articulo
             article.save((err, articleStored) => {
@@ -133,7 +138,7 @@ var controller = {
             }
 
             // Devolver  en json
-            return res.status(404).send({
+            return res.status(200).send({
                 status: 'success',
                 article
             });
@@ -263,22 +268,28 @@ var controller = {
             // Si todo es válido, sacando id de la url
             var articleId = req.params.id;
 
-            // Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
-            Article.findOneAndUpdate({ _id: articleId }, { image: file_name }, { new: true }, (err, articleUpdated) => {
+            if (articleId) {
+                // Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
+                Article.findOneAndUpdate({ _id: articleId }, { image: file_name }, { new: true }, (err, articleUpdated) => {
 
-                if (err || !articleUpdated) {
-                    return res.status(404).send({
-                        status: 'error',
-                        message: 'Error al guardar la imagen del artículo.'
+                    if (err || !articleUpdated) {
+                        return res.status(404).send({
+                            status: 'error',
+                            message: 'Error al guardar la imagen del artículo.'
+                        });
+                    }
+                    return res.status(200).send({
+                        status: 'success',
+                        article: articleUpdated
                     });
-                }
-
+                });
+            } else {
                 return res.status(200).send({
                     status: 'success',
-                    article: articleUpdated
+                    image: file_name
                 });
+            }
 
-            });
         }
     }, // end upload file
 
